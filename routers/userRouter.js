@@ -18,3 +18,5 @@ userRouter.get(routes.changePassword, changePassword);
 
 
 export default userRouter;
+/* export default 안하면 app.js에서 
+7번에 import { userRouter } from "./routers/userRouter"; */
