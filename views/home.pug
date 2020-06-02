@@ -1,5 +1,16 @@
 extends layouts/main
 //- 1번 파일을 복사해서 쓰겠다는 뜻
+include mixins/videoBlock
+
 block content
     .videos
-        h1 Video
+       each item in videos
+            +videoBlock({
+                title:item.title,
+                views:item.views,
+                videoFile:item.videoFile
+            })
+
+            //- h1= item.title 
+            //- p= item.description
+            //- item들은 변수 이름     -----> mixin 추가함으로써 다르게 작성
