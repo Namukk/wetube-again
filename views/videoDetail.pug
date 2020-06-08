@@ -1,4 +1,11 @@
 extends layouts/main
 
 block content
-    p Video Detail
+    .video__player
+        video(src=`/${video.fileUrl}`)
+        //- 앞에 /가 붙어야함. 이유는 서버에 있기 때문에
+    .video__info
+        a(href=routes.editVideo(video.id)) Edit video
+        h5.video__title=video.title
+        span.video__views=video.views
+        p.video__description=video.description

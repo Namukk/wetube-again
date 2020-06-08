@@ -25,7 +25,6 @@ export const search = (req, res) => {
 
 export const getUpload = async (req, res) =>
   res.render("upload", { pageTitle: "Upload" });
-
 export const postUpload = async (req, res) => {
   const {
     body: { title, description },
@@ -39,9 +38,45 @@ export const postUpload = async (req, res) => {
   console.log(newVideo);
   res.redirect(routes.videoDetail(newVideo.id));
 };
-export const videoDetail = (req, res) =>
-  res.render("videoDetail", { pageTitle: "Video Detail" });
-export const editVideo = (req, res) =>
-  res.render("editVideo", { pageTitle: "Edit Video" });
+
+export const videoDetail = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  // console.log(req.params.id); same with 43-45 req.params 하면 아이디 뜸.
+  try {
+    const video = await Video.findById(id);
+    res.render("videoDetail", { pageTitle: "Video Detail", video });
+    // video:video = video
+  } catch (error) {
+    res.redirect(routes.home);
+  }
+};
+
+export const getEditVideo = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  try {
+    const video = await Video.findById(id);
+    res.render("editVideo", { pageTitle: `Edit ${video.title}`, video });
+  } catch (error) {
+    res.redirect(routes.home);
+  }
+};
+export const postEditVideo = async (req, res) => {
+  const {
+    params: { id },
+    body: { title, description },
+  } = req;
+  try {
+    await Video.findOneAndUpdate({ id }, { title, description });
+    // title: title = title 이걸 이렇게 깔끔하게 쓰려고 같은이름으로 정함 title은 model의 일부
+    res.redirect(routes.videoDetail(id));
+  } catch (error) {
+    res.redirect(routes.home);
+  }
+};
+
 export const deleteVideo = (req, res) =>
   res.render("deleteVideo", { pageTitle: "Delete Video" });
