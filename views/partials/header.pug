@@ -8,8 +8,17 @@ header.header
             //- method="get"이 url에 정보 추가 (controller로 query에 접근하기 위해)
     .header__column
         ul
-            li
-                a(href=routes.join) Join
-            li
-                a(href=routes.login) Log In
-        
+            if !user.isAuthenticated
+                li
+                    a(href=routes.join) Join
+                li
+                    a(href=routes.login) Log In
+            else
+                li
+                    a(href=`/videos${routes.upload}`) Upload
+                li
+                    a(href=routes.userDetail(user.id)) Profile
+                li
+                    a(href=routes.logout) Log Out
+            
+            

@@ -1,6 +1,15 @@
-import { videos } from "../db";
-export const home = (req, res) => {
-  res.render("home", { pageTitle: "Home", videos });
+import routes from "../routes";
+import Video from "../models/Video";
+routes;
+export const home = async (req, res) => {
+  // async는 javascript가 다음 작업을 먼저 진행하지 않고 이전 작업이 끝날 때 까지 기다리게 하는것 그리고 밑에 await 사용.
+  try {
+    const videos = await Video.find({});
+    res.render("home", { pageTitle: "Home", videos });
+  } catch (error) {
+    console.log(error);
+    res.render("home", { pageTitle: "Home", videos: [] });
+  }
 };
 //첫번째는 템플릿, 두번째는 템플릿에 추가할 정보가 담긴 객채
 /*res.send("Home")에서 res.render("home")으로 바꾸면 
@@ -10,12 +19,26 @@ export const search = (req, res) => {
     query: { term: searchingBy },
   } = req;
   // const searchingBy = req.query.term; ECMA Script 즉 ES6 이전
-  res.render("search", { pageTitle: "Search", searchingBy });
-  //res.render("search", {pageTitle: "Search", searchinBy: searchingBy}) ECMA Script 즉 ES6 이전
+  res.render("search", { pageTitle: "Search", searchingBy, videos });
+  //res.render("search", {pageTitle: "Search", searchinBy: searchingBy, videos: videos}) ECMA Script 즉 ES6 이전
 };
 
-export const upload = (req, res) =>
+export const getUpload = async (req, res) =>
   res.render("upload", { pageTitle: "Upload" });
+
+export const postUpload = async (req, res) => {
+  const {
+    body: { title, description },
+    file: { path },
+  } = req;
+  const newVideo = await Video.create({
+    fileUrl: path,
+    title,
+    description,
+  });
+  console.log(newVideo);
+  res.redirect(routes.videoDetail(newVideo.id));
+};
 export const videoDetail = (req, res) =>
   res.render("videoDetail", { pageTitle: "Video Detail" });
 export const editVideo = (req, res) =>
