@@ -18,12 +18,21 @@ export const home = async (req, res) => {
 views 폴더에서 파일명이 home이고 확장자가 pug인 템플릿 찾아서 보여줄 것;;*/
 
 // Search
-export const search = (req, res) => {
+export const search = async (req, res) => {
   const {
     query: { term: searchingBy },
   } = req;
   // const searchingBy = req.query.term; ECMA Script 즉 ES6 이전
-  res.render("search", { pageTitle: "Search", searchingBy });
+  let videos = [];
+  try {
+    videos = await Video.find({
+      title: { $regex: searchingBy, $options: "i" },
+    });
+    // 만약 title: searchingBy면 입력한 제목과 정확히 일치하는 항목만 찾음.
+  } catch (error) {
+    console.log(error);
+  }
+  res.render("search", { pageTitle: "Search", searchingBy, videos });
   //res.render("search", {pageTitle: "Search", searchinBy: searchingBy, videos: videos}) ECMA Script 즉 ES6 이전
 };
 
