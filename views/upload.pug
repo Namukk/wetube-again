@@ -3,8 +3,9 @@ extends layouts/main
 block content
     .form-container
         form(action=`/videos${routes.upload}`, method="post", enctype="multipart/form-data")
-            label(for="file") Video File
-            input(type="file", id="file", name="videoFile", required=true, accept="video/*")
+            .fileUpload
+                label(for="file") Video File
+                input(type="file", id="file", name="videoFile", required=true, accept="video/*")
             //- required=true 는 보안, 즉 아무것도 없이 눌렀을 때도 디테일로 넘어가는거 방지
             input(type="text", placeholder="Title", name="title")
             textarea(name="description", placeholder="Description")
