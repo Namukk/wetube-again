@@ -32,8 +32,8 @@ export const getLogin = (req, res) =>
   res.render("login", { pageTitle: "Login" });
 
 export const postLogin = passport.authenticate("local", {
-  successRedirect: routes.home,
   failureRedirect: routes.login,
+  successRedirect: routes.home,
 }); //passport.authenticate는 username과 password찾도록 설정되어있음.
 
 export const logout = (req, res) => {
