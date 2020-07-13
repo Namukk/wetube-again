@@ -5,6 +5,9 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import passport from "passport";
+import mongoose from "mongoose";
+import session from "express-session";
+import MongoStore from "connect-mongo";
 import { localsMiddleware } from "./middlewares"; //m은 r보다 먼저 알파벳 순으로
 import routes from "./routes";
 import userRouter from "./routers/userRouter";
@@ -15,6 +18,8 @@ import "./passport";
 
 const app = express();
 
+const CookieStore = MongoStore(session);
+
 app.use(helmet()); //for the safety of application
 app.set("view engine", "pug");
 app.use("/uploads", express.static("uploads"));
@@ -23,9 +28,16 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev")); //logging
+app.use(
+  session({
+    secret: process.env.COOKIE_SECRET,
+    resave: true,
+    saveUninitialized: false,
+    store: new CookieStore({ mongooseConnection: mongoose.connection }),
+  })
+);
 app.use(passport.initialize());
 app.use(passport.session());
-
 app.use(localsMiddleware); //33, 34, 35 보다 위에 있어야 다 적용됨.(순서 중요)
 
 // app.use((req, res, next) => {})

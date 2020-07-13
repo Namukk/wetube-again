@@ -9,7 +9,7 @@ header.header
                 //- method="get"이 url에 정보 추가 (controller로 query에 접근하기 위해)
         .header__column
             ul
-                if !user.isAuthenticated
+                if !user
                     li
                         a(href=routes.join) Join
                     li

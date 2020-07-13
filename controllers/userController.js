@@ -36,7 +36,14 @@ export const postLogin = passport.authenticate("local", {
   successRedirect: routes.home,
 }); //passport.authenticate는 username과 password찾도록 설정되어있음.
 
+export const githubLogin = passport.authenticate("github");
+
+export const githubLoginCallback = (accessToken, refreshToken, profile, cb) => {
+  console.log(accessToken, refreshToken, profile, cb);
+};
+
 export const logout = (req, res) => {
+  req.logout();
   // To Do: Process Log Out
   res.redirect(routes.home);
 };
