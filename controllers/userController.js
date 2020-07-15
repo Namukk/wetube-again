@@ -38,13 +38,40 @@ export const postLogin = passport.authenticate("local", {
 
 export const githubLogin = passport.authenticate("github");
 
-export const githubLoginCallback = (accessToken, refreshToken, profile, cb) => {
-  console.log(accessToken, refreshToken, profile, cb);
+export const githubLoginCallback = async (
+  _, //accessToken은 함수에서 사용 안하므로 이렇게 바꿔줘도 됨. 지우면, 프로필은 더이상 프로필이 아니라 accessToken으로 인식
+  __, //마찬가지로 refreshToken은 사용 안하므로
+  profile,
+  cb
+) => {
+  const {
+    _json: { id, avatar_url, name, email },
+  } = profile;
+  try {
+    const user = await User.findOne({ email: email }); //사실 email: email이어야 함. 사용자의 이메일이 깃헙의 이메일과 같은가 확인
+    if (user) {
+      user.githubId = id;
+      user.save();
+      return cb(null, user);
+    }
+    const newUser = await User.create({
+      email,
+      name,
+      githubId: id,
+      avatarUrl: avatar_url,
+    });
+    return cb(null, newUser);
+  } catch (error) {
+    return cb(error);
+  }
+};
+
+export const postGithubLogIn = (req, res) => {
+  res.redirect(routes.home);
 };
 
 export const logout = (req, res) => {
   req.logout();
-  // To Do: Process Log Out
   res.redirect(routes.home);
 };
 export const users = (req, res) => res.render("users", { pageTitle: "Users" });

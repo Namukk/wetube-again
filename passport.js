@@ -7,12 +7,14 @@ import routes from "./routes";
 passport.use(User.createStrategy());
 
 passport.use(
-  new githubStrategy({
-    clientID: process.env.GH_ID,
-    clientSecret: process.env.GH_SECRET,
-    callbackURL: `http://localhost:3000${routes.githubCallback}`,
-  }),
-  githubLoginCallback
+  new githubStrategy(
+    {
+      clientID: process.env.GH_ID,
+      clientSecret: process.env.GH_SECRET,
+      callbackURL: `http://localhost:3000${routes.githubCallback}`,
+    },
+    githubLoginCallback
+  )
 );
 
 passport.serializeUser(User.serializeUser()); //Only User id만 쿠키로 보내줘 함축된 문장. (6-2 2분 40초 참고)
