@@ -74,9 +74,23 @@ export const logout = (req, res) => {
   req.logout();
   res.redirect(routes.home);
 };
-export const users = (req, res) => res.render("users", { pageTitle: "Users" });
-export const userDetail = (req, res) =>
-  res.render("userDetail", { pageTitle: "User Detail" });
+
+export const getMe = (req, res) => {
+  res.render("userDetail", { pageTitle: "User Detail", user: req.user }); //req.user은 현재 로그인된 사용자
+};
+
+export const userDetail = async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  try {
+    const user = await User.findbyId(id);
+    res.render("userDetail", { pageTitle: "User Detail", user });
+  } catch (error) {
+    res.redirect(routes.home);
+  }
+};
+
 export const editProfile = (req, res) =>
   res.render("editProfile", { pageTitle: "Edit Profile" });
 export const changePassword = (req, res) =>

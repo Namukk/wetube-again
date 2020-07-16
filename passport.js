@@ -1,5 +1,6 @@
 import passport from "passport";
 import githubStrategy from "passport-github";
+
 import User from "./models/User";
 import { githubLoginCallback } from "./controllers/userController";
 import routes from "./routes";
