@@ -36,8 +36,9 @@ export const search = async (req, res) => {
   //res.render("search", {pageTitle: "Search", searchinBy: searchingBy, videos: videos}) ECMA Script 즉 ES6 이전
 };
 
-export const getUpload = async (req, res) =>
+export const getUpload = (req, res) =>
   res.render("upload", { pageTitle: "Upload" });
+
 export const postUpload = async (req, res) => {
   const {
     body: { title, description },
@@ -47,8 +48,10 @@ export const postUpload = async (req, res) => {
     fileUrl: path,
     title,
     description,
+    creator: req.user.id,
   });
-  console.log(newVideo);
+  req.user.videos.push(newVideo.id);
+  req.user.save();
   res.redirect(routes.videoDetail(newVideo.id));
 };
 
@@ -59,6 +62,7 @@ export const videoDetail = async (req, res) => {
   // console.log(req.params.id); same with 43-45 req.params 하면 아이디 뜸.
   try {
     const video = await Video.findById(id);
+    console.log(video);
     res.render("videoDetail", { pageTitle: video.title, video });
     // video:video = video
   } catch (error) {

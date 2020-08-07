@@ -24,6 +24,10 @@ const VideoSchema = new mongoose.Schema({
       ref: "Comment",
     },
   ],
+  creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
   // comment들과 관련된 array들 즉 ID가 비디오에 저장이 됨. 코멘트 숫자 늘어나는것
 });
 
