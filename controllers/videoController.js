@@ -50,7 +50,10 @@ export const postUpload = async (req, res) => {
     description,
     creator: req.user.id,
   });
+  // req.user.videos
   req.user.videos.push(newVideo.id);
+  // req.user.videos = [newVideo.id];
+  console.log(req);
   req.user.save();
   res.redirect(routes.videoDetail(newVideo.id));
 };
@@ -61,7 +64,7 @@ export const videoDetail = async (req, res) => {
   } = req;
   // console.log(req.params.id); same with 43-45 req.params 하면 아이디 뜸.
   try {
-    const video = await Video.findById(id);
+    const video = await Video.findById(id).populate("creator"); //populate() = 객체를 데려오는 함수, object ID에만 사용 가능
     console.log(video);
     res.render("videoDetail", { pageTitle: video.title, video });
     // video:video = video

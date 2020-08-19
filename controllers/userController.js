@@ -118,7 +118,7 @@ export const userDetail = async (req, res) => {
     params: { id },
   } = req;
   try {
-    const user = await User.findbyId(id);
+    const user = await User.findById(id);
     res.render("userDetail", { pageTitle: "User Detail", user });
   } catch (error) {
     res.redirect(routes.home);
@@ -155,13 +155,13 @@ export const postChangePassword = async (req, res) => {
   try {
     if (newPassword !== newPassword1) {
       res.status(400);
-      res.redirect(`/users/${routes.changePassword}`);
+      res.redirect(`/users${routes.changePassword}`);
       return;
     }
     await req.user.changePassword(oldPassword, newPassword);
-    res.redirecrt(routes.me);
+    res.redirect(routes.me);
   } catch (error) {
     res.status(400);
-    res.redirect(`/users/${routes.changePassword}`);
+    res.redirect(`/users${routes.changePassword}`);
   }
 };
