@@ -65,7 +65,6 @@ export const videoDetail = async (req, res) => {
   // console.log(req.params.id); same with 43-45 req.params 하면 아이디 뜸.
   try {
     const video = await Video.findById(id).populate("creator"); //populate() = 객체를 데려오는 함수, object ID에만 사용 가능
-    console.log(video);
     res.render("videoDetail", { pageTitle: video.title, video });
     // video:video = video
   } catch (error) {
@@ -84,6 +83,7 @@ export const getEditVideo = async (req, res) => {
     res.redirect(routes.home);
   }
 };
+
 export const postEditVideo = async (req, res) => {
   const {
     params: { id },

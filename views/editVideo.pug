@@ -1,10 +1,10 @@
 extends layouts/main
 block content
     .form-container
-        form(action=`/users${routes.editProfile}`, method="post")
-            .fileUpload
-                label(for="avatar") Avatar
-                input(type="file", id="avatar", name="avatar")
-            input(type="text", placeholder="Name", name="name")
-            input(type="email", placeholder="Email", name="email")
-            input(type="submit", value="Update Profile")
+        form(action=routes.editVideo(video.id), method="post")
+            input(type="text", placeholder="Title", name="title", value=video.title)
+            textarea(name="description", placeholder="Description")=video.description
+            a(href=routes.editVideo(video.id))    
+                button Update Video
+        a(href=routes.deleteVideo(video.id))
+            button.delete Delete Video
