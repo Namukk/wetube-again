@@ -1,12 +1,14 @@
 extends layouts/main
+include mixins/videoPlayer
 
 block content
     .video-detail__container
-        .video__player
-            video(src=`/${video.fileUrl}`)
+        +videoPlayer({
+            src:video.fileUrl
+        })
         .video__info
-        
-            if video.creator.id === loggedUser.id
+            //- middlewares.js의 10번째 줄 null을 {}로 바꿔도 됨 = 원래는 loggedUser &&가 없음.
+            if loggedUser && video.creator.id === loggedUser.id 
                 a(href=routes.editVideo(video.id))
                     button Edit video
             h5.video__title=video.title

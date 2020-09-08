@@ -118,7 +118,8 @@ export const userDetail = async (req, res) => {
     params: { id },
   } = req;
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("videos"); //Mongoose는 videos가 object ID들의 Array인 것을 자동적으로 파악
+    console.log(user);
     res.render("userDetail", { pageTitle: "User Detail", user });
   } catch (error) {
     res.redirect(routes.home);
