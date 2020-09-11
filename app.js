@@ -13,6 +13,7 @@ import routes from "./routes";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
+import apiRouter from "./routers/apiRouter";
 //router.js에서 export default하지 않았기 때문에 7번처럼 import.
 import "./passport";
 
@@ -47,5 +48,6 @@ app.use(localsMiddleware); //33, 34, 35 보다 위에 있어야 다 적용됨.(�
 app.use(routes.home, globalRouter);
 app.use(routes.users, userRouter);
 app.use(routes.videos, videoRouter);
+app.use(routes.api, apiRouter);
 
 export default app;
