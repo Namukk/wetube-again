@@ -39,7 +39,8 @@
     "dev:server": "nodemon --exec babel-node init.js --delay 2 --ignore '.scss' --ignore 'static' ",
     "dev:assets": "WEBPACK_ENV=development webpack -w",
     "build:assets": "WEBPACK_ENV=production webpack",
-    "tunnel": "lt -h http://serverless.social -p 3000"
+    "tunnel": "lt -h http://serverless.social -p 3000",
+    "start": "nodemon --exec babel-node src/index.js"
   },
   "devDependencies": {
     "eslint": "^7.2.0",
