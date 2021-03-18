@@ -14,7 +14,7 @@ import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
 import apiRouter from "./routers/apiRouter";
-//router.js에서 export default하지 않았기 때문에 7번처럼 import.
+//router.js에서 export default하지 않았기 때문에 7번처s럼 import.
 import "./passport";
 
 const app = express();
